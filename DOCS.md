@@ -1,5 +1,7 @@
 # Social VR - Mozilla Hubs Extensions
 
+main.js is the main injection point for all of the systems and components.
+
 ## Components
 
 ### Barge
