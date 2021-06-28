@@ -1,4 +1,4 @@
-# Social VR Extensions
+# Social VR - Mozilla Hubs Extensions
 
 ## Components
 
