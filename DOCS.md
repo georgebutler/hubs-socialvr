@@ -1,6 +1,8 @@
-# Components
+# Social VR Extensions
 
-## Barge
+## Components
+
+### Barge
 
 The "Barge" is a moving platform that players can stand on.
 
@@ -15,3 +17,9 @@ A button that broadcasts the "stop" signal to all other clients, stopping the ba
 ### Button - Reset
 
 A button that broadcasts the "reset" signal to all other clients, resetting the barge's position.
+
+## Systems
+
+### Barge
+
+The barge system keeps track of the current barge in the scene.
