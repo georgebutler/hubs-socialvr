@@ -31,6 +31,7 @@ import { ShadowSystem } from "./shadow-system";
 import { MediaFramesSystem } from "./media-frames";
 import { InspectYourselfSystem } from "./inspect-yourself-system";
 
+import "../max-additions";
 import "../social-vr/main";
 
 AFRAME.registerSystem("hubs-systems", {
