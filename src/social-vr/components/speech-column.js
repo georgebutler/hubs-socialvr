@@ -1,2 +1,2 @@
-AFRAME.registerComponent("socialvr-speech-column", {
+AFRAME.registerComponent("socialvr-speech", {
 })
