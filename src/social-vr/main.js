@@ -7,7 +7,7 @@ import "./components/barge-button-go";
 import "./systems/barge";
 
 function CreateBarge() {
-  console.log("[Social VR] Barge System - Loaded");
+  console.log("[Social VR] Barge System - Created");
 
   const scene = document.querySelector("a-scene");
   const el = document.createElement("a-entity");
@@ -128,7 +128,7 @@ function CreateBarge() {
 }
 
 function CreateDST() {
-  console.log("[Social VR] DST System - Loaded");
+  console.log("[Social VR] DST System - Created");
 }
 
 function CreateSpeechVis() {
@@ -136,12 +136,11 @@ function CreateSpeechVis() {
 }
 
 waitForDOMContentLoaded().then(() => {
-  const sceneNameHolder = document.querySelector("#environment-scene > a-entity > a-entity");
-  const sceneName = sceneNameHolder.className;
+  const DSTTableExists = document.querySelectorAll('.DSTTable').length > 0;
 
   CreateSpeechVis();
   
-  if (sceneName.includes("DSTTable")) {
+  if (DSTTableExists) {
     CreateDST();
   } else {
     CreateBarge();
