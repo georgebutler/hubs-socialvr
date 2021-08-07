@@ -1,2 +1,0 @@
-AFRAME.registerComponent("socialvr-speech", {
-})

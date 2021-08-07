@@ -132,17 +132,20 @@ function CreateDST() {
 }
 
 function CreateSpeechVis() {
-  console.log("[Social VR] Speech Vis System - Loaded");
+  console.log("[Social VR] Speech Vis System - Created");
 }
 
 waitForDOMContentLoaded().then(() => {
   const DSTTableExists = document.querySelectorAll('.DSTTable').length > 0;
-
-  CreateSpeechVis();
+  const CVMarkerExists = document.querySelectorAll('.conversationVis').length > 0;
   
   if (DSTTableExists) {
     CreateDST();
   } else {
     CreateBarge();
+  }
+
+  if (CVMarkerExists) {
+    CreateSpeechVis();
   }
 });
