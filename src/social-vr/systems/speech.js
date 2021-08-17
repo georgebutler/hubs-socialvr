@@ -3,6 +3,14 @@ AFRAME.registerSystem("socialvr-speech", {
     this.activeOrbs = {};
     this.eventLog = [];
 
+    // Client
+    this.el.addEventListener("startSpeechEvent", this.startSpeech.bind(this));
+    this.el.addEventListener("stopSpeechEvent", this.stopSpeech.bind(this));
+
+    // Broadcast Event
+    NAF.connection.subscribeToDataChannel("startSpeechEvent", this._startSpeech.bind(this));
+    NAF.connection.subscribeToDataChannel("stopSpeechEvent", this._stopSpeech.bind(this));
+
     console.log("[Social VR] Speech System - Initialized");
   },
 
@@ -45,5 +53,33 @@ AFRAME.registerSystem("socialvr-speech", {
     e.timestamp = Date.now();
 
     this.eventLog.push(e);
-  }
+  },
+
+  startSpeech() {
+    this._startSpeech(null, null, {});
+    NAF.connection.broadcastData("startSpeech", {});
+  },
+
+  stopSpeech() {
+    this._stopSpeech(null, null, {});
+    NAF.connection.broadcastData("stopSpeech", {});
+  },
+
+  _startSpeech(senderId, dataType, data, targetId) {
+    this.system.logEvent("startSpeech", data);
+
+    const activeOrb = this.system.activeOrbs;
+    const playerInfo = this.system.getPlayerInfo(data.speaker);
+    const newOrb = this.system.spawnOrb(MIN_ORB_SIZE, this.system.playerInfoToColor(playerInfo));
+
+    if (activeOrb) {
+        activeOrb.el.setAttribute("finished");
+    }
+
+    this.system.activeSpeechOrbs[data.speaker] = newOrb;
+  },
+
+  _stopSpeech(senderId, dataType, data, targetId) {
+      
+  },
 });
