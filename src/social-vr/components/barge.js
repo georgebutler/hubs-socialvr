@@ -137,7 +137,7 @@ AFRAME.registerComponent("socialvr-barge", {
       const wp = document.querySelector(".Waypoint_" + i);
 
       if (wp) {
-        positions.push(wp.object3D.position.negate());
+        positions.push(wp.object3D.position);
       }
     }
 
