@@ -118,6 +118,7 @@ AFRAME.registerComponent("socialvr-barge", {
       ) {
         characterController.barge = true;
 
+        // Move character
         avatar.el.setAttribute("position", {
           x: avposition.x,
           y: position.y - this.data.height / 2 + getCurrentPlayerHeight() / 2,
