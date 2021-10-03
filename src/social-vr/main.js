@@ -15,10 +15,11 @@ function CreateBarge() {
   el.setAttribute("socialvr-barge", "");
   el.addEventListener("barge-registered", function(event) {
     const el = event.detail.bargeEnt.el;
+    const bargeSpawn = document.querySelector('.BargeSpawn');
+
+    // Reset Button
 
     /** 
-      // Reset Button
-    */
     const buttonResetEl = document.createElement("a-sphere");
     const buttonResetTextEl = document.createElement("a-entity");
 
@@ -29,15 +30,6 @@ function CreateBarge() {
     buttonResetEl.setAttribute("hoverable-visuals", "");
     buttonResetEl.setAttribute("tags", "singleActionButton: true");
     buttonResetEl.setAttribute("css-class", "interactable");
-    /**
-        buttonResetEl.setAttribute("animation", {
-          property: "rotation",
-          to: "0, 360, 0",
-          easing: "linear",
-          loop: true,
-          dur: 10000
-        });
-        */
     buttonResetEl.setAttribute("position", {
       x: el.object3D.position.x + (2 - 0.2),
       y: el.object3D.position.y + 1,
@@ -50,10 +42,11 @@ function CreateBarge() {
 
     buttonResetEl.appendChild(buttonResetTextEl);
     el.appendChild(buttonResetEl);
+    */
+
+    // Go Button
 
     /** 
-      // Go Button
-      */
     const buttonGoEl = document.createElement("a-sphere");
     const buttonGoTextEl = document.createElement("a-entity");
 
@@ -64,15 +57,6 @@ function CreateBarge() {
     buttonGoEl.setAttribute("hoverable-visuals", "");
     buttonGoEl.setAttribute("tags", "singleActionButton: true");
     buttonGoEl.setAttribute("css-class", "interactable");
-    /**
-        buttonGoEl.setAttribute("animation", {
-          property: "rotation",
-          to: "0, 360, 0",
-          easing: "linear",
-          loop: true,
-          dur: 10000
-        });
-        */
     buttonGoEl.setAttribute("position", {
       x: el.object3D.position.x + (2 - 0.2),
       y: el.object3D.position.y + 1,
@@ -86,10 +70,11 @@ function CreateBarge() {
 
     buttonGoEl.appendChild(buttonGoTextEl);
     el.appendChild(buttonGoEl);
+    */
 
+    // Stop Button
+    
     /** 
-      // Stop Button
-      */
     const buttonStopEl = document.createElement("a-sphere");
     const buttonStopTextEl = document.createElement("a-entity");
 
@@ -100,15 +85,6 @@ function CreateBarge() {
     buttonStopEl.setAttribute("hoverable-visuals", "");
     buttonStopEl.setAttribute("tags", "singleActionButton: true");
     buttonStopEl.setAttribute("css-class", "interactable");
-    /**
-            buttonStopEl.setAttribute("animation", {
-              property: "rotation",
-              to: "0, 360, 0",
-              easing: "linear",
-              loop: true,
-              dur: 10000
-            });
-            */
     buttonStopEl.setAttribute("position", {
       x: el.object3D.position.x + (2 - 0.2),
       y: el.object3D.position.y + 1,
@@ -122,8 +98,13 @@ function CreateBarge() {
 
     buttonStopEl.appendChild(buttonStopTextEl);
     el.appendChild(buttonStopEl);
-  });
+    */
 
+    if (bargeSpawn) {
+      el.setAttribute("position", bargeSpawn.getAttribute("position"));
+    }
+  });
+  
   scene.appendChild(el);
 }
 
