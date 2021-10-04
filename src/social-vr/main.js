@@ -15,7 +15,7 @@ function CreateBarge() {
   el.setAttribute("socialvr-barge", "");
   el.addEventListener("barge-registered", function(event) {
     const el = event.detail.bargeEnt.el;
-    const bargeSpawn = document.querySelector('.BargeSpawn');
+    const bargeSpawn = document.querySelector(".BargeSpawn");
 
     // Reset Button
 
@@ -73,7 +73,7 @@ function CreateBarge() {
     */
 
     // Stop Button
-    
+
     /** 
     const buttonStopEl = document.createElement("a-sphere");
     const buttonStopTextEl = document.createElement("a-entity");
@@ -104,7 +104,7 @@ function CreateBarge() {
       el.setAttribute("position", bargeSpawn.getAttribute("position"));
     }
   });
-  
+
   scene.appendChild(el);
 }
 
@@ -117,9 +117,9 @@ function CreateSpeechVis() {
 }
 
 waitForDOMContentLoaded().then(() => {
-  const DSTTableExists = document.querySelectorAll('.DSTTable').length > 0;
-  const CVMarkerExists = document.querySelectorAll('.conversationVis').length > 0;
-  
+  const DSTTableExists = document.querySelectorAll(".DSTTable").length > 0;
+  const CVMarkerExists = document.querySelectorAll(".conversationVis").length > 0;
+
   if (DSTTableExists) {
     CreateDST();
   } else {
