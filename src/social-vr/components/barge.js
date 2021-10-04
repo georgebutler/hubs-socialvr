@@ -20,12 +20,12 @@ AFRAME.registerComponent("socialvr-barge", {
   },
 
   init() {
-    this.geometry = new THREE.BoxBufferGeometry(this.data.width, this.data.height, this.data.depth);
-    this.material = new THREE.MeshStandardMaterial({ color: "#AAA" });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    //this.geometry = new THREE.BoxBufferGeometry(this.data.width, this.data.height, this.data.depth);
+    //this.material = new THREE.MeshStandardMaterial({ color: "#AAA" });
+    //this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.direction = new THREE.Vector3();
 
-    this.el.setObject3D("mesh", this.mesh);
+    //this.el.setObject3D("mesh", this.mesh);
 
     // Load model
     bargeModelPromise.then((model) => {
