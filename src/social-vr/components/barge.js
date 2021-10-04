@@ -1,5 +1,10 @@
 import { Vector3 } from "three";
 import { getCurrentPlayerHeight } from "../../utils/get-current-player-height";
+import { cloneObject3D } from "../../utils/three-utils";
+import { loadModel } from "../../components/gltf-model-plus";
+import bargeModelSrc from "../../assets/models/BargeMesh.glb";
+
+const bargeModelPromise = waitForDOMContentLoaded().then(() => loadModel(bargeModelSrc));
 
 let positions = [];
 let lastKeyChange = 0;
@@ -21,6 +26,22 @@ AFRAME.registerComponent("socialvr-barge", {
     this.direction = new THREE.Vector3();
 
     this.el.setObject3D("mesh", this.mesh);
+
+    // Load model
+    bargeModelPromise.then((model) => {
+      console.log(`[Social VR] Barge System - Mesh Loaded`)
+
+      const mesh = cloneObject3D(model.scene);
+      mesh.scale.set(2, 2, 2);
+      mesh.matrixNeedsUpdate = true;
+      this.el.setObject3D("mesh", mesh);
+
+      this.el.object3D.visible = true;
+      this.el.object3D.scale.set(0.5, 0.5, 0.5);
+      this.el.object3D.matrixNeedsUpdate = true;
+
+      const obj = this.el.object3D;
+    })
 
     // Client
     this.el.addEventListener("startBargeEvent", this.startBarge.bind(this));
