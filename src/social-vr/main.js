@@ -133,11 +133,7 @@ waitForDOMContentLoaded().then(() => {
 
   const { entity, orientation } = addMedia(
     "https://sketchfab.com/3d-models/low-poly-truck-car-drifter-f3750246b6564607afbefc61cb1683b1",
-    "#interactable-media",
-    contentOrigin,
-    null,
-    !(src instanceof MediaStream),
-    true
+    "#interactable-media"
   );
 
   console.log(entity)
