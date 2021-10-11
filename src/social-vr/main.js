@@ -1,4 +1,5 @@
 import { waitForDOMContentLoaded } from "../utils/async-utils";
+import { addMedia } from "../utils/media-utils";
 
 import "./components/barge";
 import "./components/barge-button-reset";
@@ -129,4 +130,16 @@ waitForDOMContentLoaded().then(() => {
   if (CVMarkerExists) {
     CreateSpeechVis();
   }
+
+  const { entity, orientation } = addMedia(
+    "https://sketchfab.com/3d-models/low-poly-truck-car-drifter-f3750246b6564607afbefc61cb1683b1",
+    "#interactable-media",
+    contentOrigin,
+    null,
+    !(src instanceof MediaStream),
+    true
+  );
+
+  console.log(entity)
+  console.log(orientation)
 });
