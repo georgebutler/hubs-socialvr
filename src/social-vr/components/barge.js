@@ -1,6 +1,7 @@
 import { Vector3 } from "three";
 import { getCurrentPlayerHeight } from "../../utils/get-current-player-height";
 import { cloneObject3D } from "../../utils/three-utils";
+import { waitForDOMContentLoaded } from "../../utils/async-utils";
 import { loadModel } from "../../components/gltf-model-plus";
 import bargeModelSrc from "../../assets/models/BargeMesh.glb";
 
