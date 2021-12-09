@@ -17,7 +17,7 @@ const NAV_ZONE = "character";
 const qsAllowWaypointLerp = qsTruthy("waypointLerp");
 const isMobile = AFRAME.utils.device.isMobile();
 
-const calculateDisplacementToDesiredPOV = (function() {
+const calculateDisplacementToDesiredPOV = (function () {
   const translationCoordinateSpace = new THREE.Matrix4();
   const translated = new THREE.Matrix4();
   const localTranslation = new THREE.Matrix4();
@@ -79,7 +79,7 @@ export class CharacterControllerSystem {
     this.dXZ += dXZ;
   }
   // We assume the rig is at the root, and its local position === its world position.
-  teleportTo = (function() {
+  teleportTo = (function () {
     const rig = new THREE.Vector3();
     const head = new THREE.Vector3();
     const deltaFromHeadToTargetForHead = new THREE.Vector3();
@@ -100,7 +100,7 @@ export class CharacterControllerSystem {
     };
   })();
 
-  travelByWaypoint = (function() {
+  travelByWaypoint = (function () {
     const inMat4Copy = new THREE.Matrix4();
     const inPosition = new THREE.Vector3();
     const outPosition = new THREE.Vector3();
@@ -126,8 +126,16 @@ export class CharacterControllerSystem {
         inPosition.setFromMatrixPosition(inMat4Copy);
         this.findPositionOnNavMesh(inPosition, inPosition, outPosition, true);
         finalPOV.setPosition(outPosition);
+        translation.makeTranslation(0, getCurrentPlayerHeight(), -0.15);
+      } else {
+        // If we are not snapping to the nav mesh, align the user's
+        // perspective exactly to the robot eyes as they appear in the
+        // waypoint indicator. (1.6 meters up and 0.15 meters forward)
+        // This does _not_ require taking the player's height into account
+        // on this line because we are only interested in where the
+        // camera will end up.
+        translation.makeTranslation(0, 1.6, -0.15);
       }
-      translation.makeTranslation(0, getCurrentPlayerHeight(), -0.15);
       finalPOV.multiply(translation);
       if (willMaintainInitialOrientation) {
         initialOrientation.extractRotation(this.avatarPOV.object3D.matrixWorld);
@@ -143,7 +151,7 @@ export class CharacterControllerSystem {
     };
   })();
 
-  tick = (function() {
+  tick = (function () {
     const snapRotatedPOV = new THREE.Matrix4();
     const newPOV = new THREE.Matrix4();
     const displacementToDesiredPOV = new THREE.Vector3();
@@ -182,10 +190,10 @@ export class CharacterControllerSystem {
           (vrMode && !qsAllowWaypointLerp) || this.activeWaypoint.isInstant
             ? 0
             : 1000 *
-              (new THREE.Vector3()
-                .setFromMatrixPosition(this.avatarPOV.object3D.matrixWorld)
-                .distanceTo(waypointPosition.setFromMatrixPosition(this.activeWaypoint.transform)) /
-                AVERAGE_WAYPOINT_TRAVEL_SPEED_METERS_PER_SECOND);
+            (new THREE.Vector3()
+              .setFromMatrixPosition(this.avatarPOV.object3D.matrixWorld)
+              .distanceTo(waypointPosition.setFromMatrixPosition(this.activeWaypoint.transform)) /
+              AVERAGE_WAYPOINT_TRAVEL_SPEED_METERS_PER_SECOND);
         rotateInPlaceAroundWorldUp(this.avatarPOV.object3D.matrixWorld, Math.PI, startTransform);
         startTransform.multiply(startTranslation.makeTranslation(0, -1 * getCurrentPlayerHeight(), -0.15));
         this.waypointTravelStartTime = t;
@@ -263,14 +271,14 @@ export class CharacterControllerSystem {
         const zCharacterAcceleration = -1 * characterAcceleration[1];
         this.relativeMotion.set(
           this.relativeMotion.x +
-            (preferences.disableMovement || preferences.disableStrafing ? 0 : characterAcceleration[0]),
+          (preferences.disableMovement || preferences.disableStrafing ? 0 : characterAcceleration[0]),
           this.relativeMotion.y,
           this.relativeMotion.z +
-            (preferences.disableMovement
-              ? 0
-              : preferences.disableBackwardsMovement
-                ? Math.min(0, zCharacterAcceleration)
-                : zCharacterAcceleration)
+          (preferences.disableMovement
+            ? 0
+            : preferences.disableBackwardsMovement
+              ? Math.min(0, zCharacterAcceleration)
+              : zCharacterAcceleration)
         );
       }
       const lerpC = vrMode ? 0 : 0.85; // TODO: To support drifting ("ice skating"), motion needs to keep initial direction
@@ -298,7 +306,7 @@ export class CharacterControllerSystem {
                 BASE_SPEED *
                 Math.sqrt(playerScale) *
                 dt) /
-                1000
+              1000
             ),
             displacementToDesiredPOV
           );
@@ -360,7 +368,7 @@ export class CharacterControllerSystem {
     );
   }
 
-  findPOVPositionAboveNavMesh = (function() {
+  findPOVPositionAboveNavMesh = (function () {
     const startingFeetPosition = new THREE.Vector3();
     const desiredFeetPosition = new THREE.Vector3();
     // TODO: Here we assume the player is standing straight up, but in VR it is often the case
