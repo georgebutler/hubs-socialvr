@@ -29,8 +29,8 @@ AFRAME.registerComponent("socialvr-barge", {
     //this.el.setObject3D("mesh", this.mesh);
 
     // Load model
-    bargeModelPromise.then((model) => {
-      console.log(`[Social VR] Barge System - Mesh Loaded`)
+    bargeModelPromise.then(model => {
+      console.log(`[Social VR] Barge System - Mesh Loaded`);
 
       const mesh = cloneObject3D(model.scene);
       mesh.scale.set(2, 2, 2);
@@ -42,7 +42,7 @@ AFRAME.registerComponent("socialvr-barge", {
       this.el.object3D.matrixNeedsUpdate = true;
 
       const obj = this.el.object3D;
-    })
+    });
 
     // Client
     this.el.addEventListener("startBargeEvent", this.startBarge.bind(this));
