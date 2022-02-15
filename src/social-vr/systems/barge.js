@@ -5,16 +5,14 @@ AFRAME.registerSystem("socialvr-barge", {
     console.log("[Social VR] Barge System - Initialized")
   },
 
-  register(ent) {
+  register(el) {
     if (this.barge != null) {
       this.barge.remove();
     }
-
-    this.barge = ent;
-    ent.el.emit("barge-registered", { bargeEnt: ent });
+    this.barge = el;
   },
 
   unregister() {
     this.barge = null;
-  }
+  },
 });

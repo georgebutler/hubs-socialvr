@@ -44,6 +44,83 @@ AFRAME.registerComponent("socialvr-barge", {
       const obj = this.el.object3D;
     });
 
+    // Reset Button
+    const buttonResetEl = document.createElement("a-sphere");
+    buttonResetEl.setAttribute("radius", "0.15");
+    buttonResetEl.setAttribute("material", "color: #3B56DC");
+    buttonResetEl.setAttribute("socialvr-barge-button", "reset");
+    buttonResetEl.setAttribute("is-remote-hover-target", "");
+    buttonResetEl.setAttribute("hoverable-visuals", "");
+    buttonResetEl.setAttribute("tags", "singleActionButton: true");
+    buttonResetEl.setAttribute("css-class", "interactable");
+    buttonResetEl.setAttribute("position", {
+      x: this.el.object3D.position.x + (2 - 0.2),
+      y: this.el.object3D.position.y + 1,
+      z: this.el.object3D.position.z
+    });
+
+    // Reset Button - Text
+    const buttonResetTextEl = document.createElement("a-entity");
+    buttonResetTextEl.setAttribute("text", "value: RESET; align: center;");
+    buttonResetTextEl.setAttribute("rotation", "0 270 0");
+    buttonResetTextEl.setAttribute("position", "0 0.2 0");
+
+    buttonResetEl.appendChild(buttonResetTextEl);
+    this.el.appendChild(buttonResetEl);
+
+    // Start Button
+    const buttonGoEl = document.createElement("a-sphere");
+    buttonGoEl.setAttribute("radius", "0.15");
+    buttonGoEl.setAttribute("material", "color: #32CD32");
+    buttonGoEl.setAttribute("socialvr-barge-button", "start");
+    buttonGoEl.setAttribute("is-remote-hover-target", "");
+    buttonGoEl.setAttribute("hoverable-visuals", "");
+    buttonGoEl.setAttribute("tags", "singleActionButton: true");
+    buttonGoEl.setAttribute("css-class", "interactable");
+    buttonGoEl.setAttribute("position", {
+      x: this.el.object3D.position.x + (2 - 0.2),
+      y: this.el.object3D.position.y + 1,
+      z: this.el.object3D.position.z + 1 // Right
+    });
+
+    // Start Button - Text
+    const buttonGoTextEl = document.createElement("a-entity");
+    buttonGoTextEl.setAttribute("text", "value: GO; align: center;");
+    buttonGoTextEl.setAttribute("rotation", "0 270 0");
+    buttonGoTextEl.setAttribute("position", "0 0.2 0");
+
+    buttonGoEl.appendChild(buttonGoTextEl);
+    this.el.appendChild(buttonGoEl);
+
+    // Stop Button
+    const buttonStopEl = document.createElement("a-sphere");
+    buttonStopEl.setAttribute("radius", "0.15");
+    buttonStopEl.setAttribute("material", "color: #FF0000");
+    buttonStopEl.setAttribute("socialvr-barge-button", "stop");
+    buttonStopEl.setAttribute("is-remote-hover-target", "");
+    buttonStopEl.setAttribute("hoverable-visuals", "");
+    buttonStopEl.setAttribute("tags", "singleActionButton: true");
+    buttonStopEl.setAttribute("css-class", "interactable");
+    buttonStopEl.setAttribute("position", {
+      x: this.el.object3D.position.x + (2 - 0.2),
+      y: this.el.object3D.position.y + 1,
+      z: this.el.object3D.position.z - 1 // Left
+    });
+
+    // Stop Button - Text
+    const buttonStopTextEl = document.createElement("a-entity");
+    buttonStopTextEl.setAttribute("text", "value: STOP; align: center;");
+    buttonStopTextEl.setAttribute("rotation", "0 270 0");
+    buttonStopTextEl.setAttribute("position", "0 0.2 0");
+
+    buttonStopEl.appendChild(buttonStopTextEl);
+    this.el.appendChild(buttonStopEl);
+
+    const bargeSpawn = document.querySelector(".BargeSpawn");
+    if (bargeSpawn) {
+      this.el.setAttribute("position", bargeSpawn.getAttribute("position"));
+    }
+
     // Client
     this.el.addEventListener("startBargeEvent", this.startBarge.bind(this));
     this.el.addEventListener("stopBargeEvent", this.stopBarge.bind(this));
@@ -54,10 +131,18 @@ AFRAME.registerComponent("socialvr-barge", {
     NAF.connection.subscribeToDataChannel("stopBarge", this._stopBarge.bind(this));
     NAF.connection.subscribeToDataChannel("resetBarge", this._resetBarge.bind(this));
 
-    this.system.register(this);
+    this.system.register(this.el);
   },
 
   remove() {
+    this.el.removeEventListener("startBargeEvent", this.startBarge.bind(this));
+    this.el.removeEventListener("stopBargeEvent", this.stopBarge.bind(this));
+    this.el.removeEventListener("resetBargeEvent", this.resetBarge.bind(this));
+
+    NAF.connection.unsubscribeToDataChannel("startBarge");
+    NAF.connection.unsubscribeToDataChannel("stopBarge");
+    NAF.connection.unsubscribeToDataChannel("resetBarge");
+
     this.el.removeObject3D("mesh");
     this.system.unregister();
   },
@@ -97,6 +182,7 @@ AFRAME.registerComponent("socialvr-barge", {
           z: position.z + direction.z
         });
 
+        // Avatar Movement
         if (
           avposition.x >= bargeMinX &&
           avposition.x <= bargeMaxX &&
@@ -113,6 +199,28 @@ AFRAME.registerComponent("socialvr-barge", {
         } else {
           characterController.barge = false;
         }
+
+        // Floaty Movement
+        const floaties = document.querySelectorAll('[floaty-object=""]');
+
+        floaties.forEach((floaty) => {
+          const x = floaty.object3D.position.x
+          const y = floaty.object3D.position.y
+          const z = floaty.object3D.position.z
+
+          floaty.object3D.position.set(x + direction.x, y - direction.y, z + direction.z)
+        })
+
+        // Interactable Movement
+        const interactables = document.querySelectorAll('[interactable=""]');
+
+        interactables.forEach((interactable) => {
+          const x = interactable.object3D.position.x
+          const y = interactable.object3D.position.y
+          const z = interactable.object3D.position.z
+
+          interactable.object3D.position.set(x + direction.x, y - direction.y, z + direction.z)
+        })
       } else {
         if (
           avposition.x < bargeMinX &&
