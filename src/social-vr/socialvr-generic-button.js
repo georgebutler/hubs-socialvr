@@ -2,10 +2,10 @@ import { SOUND_SNAP_ROTATE } from "../systems/sound-effects-system";
 
 function getButtonColor(buttonState) {
   if (!buttonState.active) return "gray";
-  if (buttonState.hovered && buttonState.clicked) return "lightgreen";
-  if (buttonState.hovered && !buttonState.clicked) return "pink";
-  if (buttonState.clicked) return "green";
-  return "red";
+  if (buttonState.hovered && buttonState.clicked) return "#d3f8d3";
+  if (buttonState.hovered && !buttonState.clicked) return "lightgreen";
+  if (buttonState.clicked) return "#7659ad";
+  return "green";
 }
 
 function rerenderButton(buttonEl, buttonState) {
